@@ -1,0 +1,65 @@
+<!-- templates/stkpush_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK Push</title>
+    <style>
+        /* Set a fixed height and make it scrollable */
+        #response {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Initiate STK Push</h1>
+    <form id="stkPushForm">
+        <label for="phone_numbers">Enter phone numbers (one per line):</label><br>
+        <textarea id="phone_numbers" name="phone_numbers" rows="5" cols="30" placeholder="254700123456"></textarea><br><br>
+        <button type="button" onclick="initiateStkPush()">Send STK Push</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        async function initiateStkPush() {
+            const phoneNumbers = document.getElementById("phone_numbers").value.trim().split("\n").map(num => num.trim());
+            const responseDiv = document.getElementById("response");
+            responseDiv.innerHTML = "Starting STK push sequence...<br>";
+
+            for (const [index, phoneNumber] of phoneNumbers.entries()) {
+                responseDiv.innerHTML += `Sending STK push to ${phoneNumber}...<br>`;
+                
+                try {
+                    const response = await fetch('/stkpush/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phone_numbers: [phoneNumber] })  // Send one number at a time
+                    });
+
+                    const data = await response.json();
+                    responseDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre><br>`;
+                } catch (error) {
+                    responseDiv.innerHTML += `Error sending to ${phoneNumber}: ${error.message}<br>`;
+                }
+
+                // Scroll to the bottom to show the latest entry
+                responseDiv.scrollTop = responseDiv.scrollHeight;
+
+                // Wait 20 seconds before proceeding to the next number
+                if (index < phoneNumbers.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 20000));  // 20000 ms = 20 seconds
+                }
+            }
+
+            responseDiv.innerHTML += "STK push sequence completed.";
+            responseDiv.scrollTop = responseDiv.scrollHeight;  // Scroll to the bottom after completion
+        }
+    </script>
+</body>
+</html>

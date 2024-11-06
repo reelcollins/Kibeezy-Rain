@@ -18,9 +18,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('/', views.index, name='index'),
     path('admin/', admin.site.urls),
     path('accesstoken/', views.get_access_token, name='get_access_token'),
     path('stkpush/', views.initiate_stk_push, name='initiate_stk_push'),
-    path('query/', views.query_stk_status, name='query_stk_status')
+    path('stkpush_form/', views.stkpush_form, name='stkpush_form'), 
+    
 ]
