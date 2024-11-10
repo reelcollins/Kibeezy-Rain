@@ -17,4 +17,3 @@ def process_stk_callback(request):
     
     if result_code == 0:
       #  store the transaction details in the database
-        

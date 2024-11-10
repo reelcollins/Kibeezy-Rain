@@ -2,8 +2,8 @@ import requests
 from django.http import JsonResponse
 
 def get_access_token(request):
-    consumer_key = "Tcn1GIQu9RRXUdVFAoDXb2Cycey4Gk8QRZXqhVcBmdwGXiX5"  
-    consumer_secret = "rGaFYJDkSZd95E3EzGOs9ANC7nYs7PsiGZuP4GJEFVTmbjeAl5pWDH4b9XyAAKhA"  
+    consumer_key = "ykSVKLJEXnGo7XcrHdIp85VHEx1QPFfIDolpqOOGgNugh1xO"  
+    consumer_secret = "vWAJdWV6MihnIggtfEcnrV89JfZhOJirS1AzBbQu2GancvNHdZJLN1P0YDZleG3H"  
     access_token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
     headers = {'Content-Type': 'application/json'}
     auth = (consumer_key, consumer_secret)
